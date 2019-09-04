@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/chocol/sc-config
+          username: 314159715@qq.com
+          password: cl314159
+server:
+  port: 9100
