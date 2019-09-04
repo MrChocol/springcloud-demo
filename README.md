@@ -8,3 +8,4 @@ springcloud 练习
   - gateway 网关
   - client 客户端(测试)
   - member 会员模块
+  - config 配置中心模块
