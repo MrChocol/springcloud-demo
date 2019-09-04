@@ -1,5 +1,7 @@
 package com.powerchen.springcloud.member.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.powerchen.springcloud.member.client.BookClient;
 import com.powerchen.springcloud.member.client.BookDTO;
 import com.powerchen.springcloud.member.client.RestResult;
@@ -24,6 +26,7 @@ import java.util.Map;
 @RestController
 // 解决跨域问题 端口不一样也算跨域
 @CrossOrigin
+@DefaultProperties(defaultFallback = "defaultFallBack")
 public class MemberController {
     @Autowired
     private MemberService memberService;
@@ -51,6 +54,8 @@ public class MemberController {
     }
 
     @GetMapping("/info")
+//    @HystrixCommand(fallbackMethod = "fallback")
+    @HystrixCommand
     public String test(Long bid) {
         // 服务间通信的几种方式
         // 1.通过springcloud内置的RestTemplate进行通信，其底层是Apache的HttpClient组件(写死了不推荐)
@@ -78,5 +83,15 @@ public class MemberController {
     public String test2() {
         RestResult<List<BookDTO>> all = bookClient.getAll();
         return all.getData().toString();
+    }
+
+    // 服务降级的方法要求返回值、参数与目标方法保持一致
+    private String fallback(Long bid) {
+        return "当前系统正忙,请稍后再试";
+    }
+
+    // 全局默认的降级方法,不需要参数，且返回String或者任何可以被JSON序列化的对象
+    private String defaultFallBack() {
+        return "[默认系统降级]当前系统正忙,请稍后再试";
     }
 }
