@@ -1,0 +1,15 @@
+spring:
+  application:
+    # 应用名称 默认是注册中心的id
+    name: registry
+# 注册中心默认端口是8761 不建议更改
+#server:
+#  port: 8761
+eureka:
+  client:
+    # 没必要将自身注册到服务端
+    register-with-eureka: false
+    # 双注册中心 高可用配置
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+#      defaultZone: http://localhost:8762/eureka

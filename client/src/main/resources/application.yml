@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: client
+eureka:
+  client:
+    service-url:
+      # 注册中心的地址 默认每30s向注册中心注册一次
+      # 在高可用注册中心情况下就需要配置多个注册中心
+      # 在运行时由客户端选择注册中心，称为客户端负载均衡
+      defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/
+#server:
+#  port: 9000
